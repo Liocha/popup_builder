@@ -54,7 +54,7 @@ export default {
       }))
     },
     handleSelectionStart() {
-      this.eventbus.$emit(EVENT_COMPONENT_UNSELECT)
+      this.emitter.emit(EVENT_COMPONENT_UNSELECT)
       this.selectionActive = false
     },
     handleSelectionMove({ x, y, downClientX, downClientY }) {

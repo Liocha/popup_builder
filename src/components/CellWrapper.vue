@@ -11,11 +11,11 @@ export default {
     handler(e, transform) {
       e.stopPropagation()
       e.preventDefault()
-      this.eventbus.$emit(EVENT_COMPONENT_TRANSFORM, { type: this.handleType, transform })
+      this.emitter.emit(EVENT_COMPONENT_TRANSFORM, { type: this.handleType, transform })
     },
     beforeActive1() {
       this.handleType = 'beforeactive'
-      this.eventbus.$emit(EVENT_COMPONENT_SELECT, this.item)
+      this.emitter.emit(EVENT_COMPONENT_SELECT, this.item)
       return true
     },
     handleDragStart(e, t) {

@@ -53,7 +53,7 @@ export default {
 
         addComponents.push(com)
       }
-      this.eventbus.$emit(EVENT_COMPONENT_ADD, { components: addComponents, parentId: this.parentId })
+     this.emitter.emit(EVENT_COMPONENT_ADD, { components: addComponents, parentId: this.parentId })
     },
   },
   mounted() {

@@ -10,7 +10,7 @@ export default {
     handleChange(v, index) {
       let value = this.value.slice()
       value[index] = Math.max(1, Math.floor(v))
-      this.$emit('input', value)
+      this.emitter.emit('input', value)
     },
   },
   render() {

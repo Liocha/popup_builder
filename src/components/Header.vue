@@ -16,47 +16,38 @@ export default {
           <button
             title="Return to the previous state"
             data-action="undo"
-            onClick={() => this.eventbus.$emit(EVENT_APPLICATION_UNDO)}
+            onClick={() => this.emitter.emit(EVENT_APPLICATION_UNDO)}
           >
             Undo
           </button>
           <button
             title="Return to the next state"
             data-action="redo"
-            onClick={() => this.eventbus.$emit(EVENT_APPLICATION_REDO)}
+            onClick={() => this.emitter.emit(EVENT_APPLICATION_REDO)}
           >
             Redo
           </button>
           <button
             title="Duplicate selected component"
             data-action="duplicate"
-            onClick={() => this.eventbus.$emit(EVENT_COMPONENT_DUPLICATE)}
+            onClick={() => this.emitter.emit(EVENT_COMPONENT_DUPLICATE)}
           >
             Duplicate
           </button>
           <button
             title="Delete selected component"
             data-action="delete"
-            onClick={() => this.eventbus.$emit(EVENT_COMPONENT_DELETE)}
+            onClick={() => this.emitter.emit(EVENT_COMPONENT_DELETE)}
           >
             Delete
           </button>
           <button
             title="Clear all components in the editing area"
             data-action="clear"
-            onClick={() => this.eventbus.$emit(EVENT_APPLICATION_CLEAR)}
+            onClick={() => this.emitter.emit(EVENT_APPLICATION_CLEAR)}
           >
             Clear
           </button>
-          <iframe
-            class="github-btn"
-            src="https://ghbtns.com/github-btn.html?user=zuimeiaj&repo=yoyoo-ddr&type=star&count=true&size=large"
-            frameborder="0"
-            scrolling="0"
-            width="170"
-            height="30"
-            title="GitHub"
-          />
         </div>
       </div>
     )

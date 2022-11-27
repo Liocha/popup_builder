@@ -36,6 +36,7 @@ export default {
       currentId: '', //id выбранного элемента (возможно который эктив)
       currentPath: [], 
       controlled: {}, //данные текущего элемента
+    //  emitter: this.emitter
     }
   },
   methods: {
@@ -314,15 +315,15 @@ export default {
   },
   created() {
     // 使用独立的事件对象来处理，避免多层透传回调函数
-   //this.eventbus.$on(EVENT_COMPONENT_ADD, this.addControl)
-   // this.eventbus.$on(EVENT_COMPONENT_SELECT, this.handleSelect)
-   // this.eventbus.$on(EVENT_COMPONENT_TRANSFORM, this.handleTransform)
-   // this.eventbus.$on(EVENT_COMPONENT_UNSELECT, this.handleUnselect)
-   // this.eventbus.$on(EVENT_COMPONENT_DUPLICATE, this.duplicateComponent)
-   // this.eventbus.$on(EVENT_COMPONENT_DELETE, this.deleteComponent)
-   // this.eventbus.$on(EVENT_APPLICATION_REDO, this.handleRedo)
-   // this.eventbus.$on(EVENT_APPLICATION_UNDO, this.handleUndo)
-   // this.eventbus.$on(EVENT_APPLICATION_CLEAR, this.handleClear)
+   this.emitter.on(EVENT_COMPONENT_ADD, this.addControl)
+   this.emitter.on(EVENT_COMPONENT_SELECT, this.handleSelect)
+   this.emitter.on(EVENT_COMPONENT_TRANSFORM, this.handleTransform)
+   this.emitter.on(EVENT_COMPONENT_UNSELECT, this.handleUnselect)
+   this.emitter.on(EVENT_COMPONENT_DUPLICATE, this.duplicateComponent)
+   this.emitter.on(EVENT_COMPONENT_DELETE, this.deleteComponent)
+   this.emitter.on(EVENT_APPLICATION_REDO, this.handleRedo)
+   this.emitter.on(EVENT_APPLICATION_UNDO, this.handleUndo)
+   this.emitter.on(EVENT_APPLICATION_CLEAR, this.handleClear)
 
     // 绑定键盘按钮事件
     registerKeyboardAction(this)
@@ -397,5 +398,17 @@ export default {
       display: none;
     }
   }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.page {
+  height: 100vh;
+  position: relative;
+  padding: 0;
+  margin: 0;
 }
 </style>

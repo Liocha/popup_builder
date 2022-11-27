@@ -1,5 +1,6 @@
 <script lang="jsx">
 import Logo from '@/assets/logo.png'
+import input from '@/assets/input.png'
 export default {
   data() {
     return {
@@ -87,7 +88,7 @@ export default {
         {this.components.map((item, index) => {
           return (
             <div ondragstart={(e) => this.handleDrag(e, item)} draggable="true" class="components-item" key={index}>
-              <img class="components-icon"  />
+              <img class="components-icon"  src={ "src/assets/" + (item.inputType || item.type) + ".png"} />
               {item.name}
             </div>
           )

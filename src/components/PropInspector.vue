@@ -39,13 +39,13 @@ export default {
   },
   methods: {
     customChange(e, item) {
-      this.$emit('change', {
+      this.emitter.emit('change', {
         ...item,
         value: e,
       })
     },
     extraChange(e, item) {
-      this.$emit('change', {
+      this.emitter.emit('change', {
         ...item,
         value: e.target.value,
         checked: e.target.checked,

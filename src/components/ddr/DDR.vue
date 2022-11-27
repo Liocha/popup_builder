@@ -187,7 +187,7 @@ export default {
         .join(';')
     },
     emitChange() {
-      this.$emit('input', { ...this.transform })
+      this.emitter.emit('input', { ...this.transform })
     },
     handleMouseDown(event) {
       if (!this.active && !this.beforeActive(this.id)) return
@@ -231,16 +231,16 @@ export default {
         this._handlerType = 'rotate'
         this.isReadyToRotate = true
         this.handleRotateStart(event)
-        this.$emit('rotatestart', event, this.transform)
+        this.emitter.emit('rotatestart', event, this.transform)
       } else if (this._activeTarget.dataset.resizetype) {
         this._handlerType = 'resize'
         this.isReadyToResize = true
         this.handleResizeStart(event)
-        this.$emit('resizestart', event, this.transform)
+        this.emitter.emit('resizestart', event, this.transform)
       } else {
         this._handlerType = 'drag'
         this.isReadyToDrag = true
-        this.draggable && this.$emit('dragstart', event, this.transform)
+        this.draggable && this.emitter.emit('dragstart', event, this.transform)
       }
     },
     handleMouseMove(event) {
@@ -256,15 +256,15 @@ export default {
       if (this._handlerType === 'resize') {
         this.isResizing = true
         this.handleResizeMove(event)
-        this.$emit('resize', event, this.transform)
+        this.emitter.emit('resize', event, this.transform)
       } else if (this._handlerType === 'drag' && this.draggable) {
         this.isDragging = true
         this.doMove(event)
-        this.$emit('drag', event, this.transform)
+        this.emitter.emit('drag', event, this.transform)
       } else if (this._handlerType === 'rotate') {
         this.isRotating = true
         this.handleRotateMove(event)
-        this.$emit('rotate', event, this.transform)
+        this.emitter.emit('rotate', event, this.transform)
       }
       this.emitChange()
     },
@@ -334,7 +334,7 @@ export default {
 
       this.isInitialRatio = this.isDragging = this.isResizing = this.isRotating = false
       this.isReadyToDrag = this.isReadyToResize = this.isReadyToRotate = false
-      this[ev[this._handlerType]] && this.$emit(this._handlerType + 'end', event, this.transform)
+      this[ev[this._handlerType]] && this.emitter.emit(this._handlerType + 'end', event, this.transform)
     },
     handleResizeStart(event) {
       let type = this._resizeHandler

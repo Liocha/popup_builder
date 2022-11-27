@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     handleChange(v) {
-      this.$emit('input', v)
+      this.emitter.emit('input', v)
     },
   },
   render() {
