@@ -1,12 +1,13 @@
 <script lang="jsx">
 export default {
+  emits: ['input'],
   props: {
     value: Number,
   },
 
   methods: {
     handleChange(v) {
-      this.emitter.emit('input', +v)
+      this.$emit('input', +v)
     },
   },
   render() {

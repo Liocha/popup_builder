@@ -1,15 +1,15 @@
-import { deepCopyComponent } from '@/utils'
-import { EVENT_COMPONENT_DELETE, EVENT_COMPONENT_DUPLICATE } from '@/event-enums'
+import { deepCopyComponent } from '@/utils.js'
+import { EVENT_COMPONENT_DELETE, EVENT_COMPONENT_DUPLICATE } from '@/event-enums.js'
 
 export function registerSelectionActions(selection) {
-  selection.eventbus.$on(EVENT_COMPONENT_DELETE, () => {
+  selection.emitter.on(EVENT_COMPONENT_DELETE, () => {
     if (selection.componentRefs.length > 1) {
       selection.application.batchDeleteControls(selection.componentRefs.map((item) => item.id))
       selection.selectionActive = false
     }
   })
 
-  selection.eventbus.$on(EVENT_COMPONENT_DUPLICATE, () => {
+  selection.emitter.on(EVENT_COMPONENT_DUPLICATE, () => {
     if (selection.componentRefs.length > 1) {
       const components = []
       const transformList = []

@@ -1,5 +1,6 @@
 <script lang="jsx">
 import DragCell from "@/components/ddr/DDR.vue";
+import pEl from "@/components/elements/pEl.vue";
 import { EVENT_COMPONENT_SELECT, EVENT_COMPONENT_TRANSFORM } from '@/event-enums'
 import ComponentImpl from "@/components/ComponentImpl.jsx";
 import { saveComponentRef } from '@/ref'
@@ -9,8 +10,8 @@ export default {
   },
   methods: {
     handler(e, transform) {
-      e.stopPropagation()
-      e.preventDefault()
+      //e.stopPropagation()
+      //e.preventDefault()
       this.emitter.emit(EVENT_COMPONENT_TRANSFORM, { type: this.handleType, transform })
     },
     beforeActive1() {
@@ -56,12 +57,16 @@ export default {
     },
     renderContent() {
       let extra = this.item.extra
+      if(extra.type == 'p') {
+        return <pEl meta={this.item} params={extra}/>
+      } else {
       let DynamicComponent = ComponentImpl[extra.type]
       return (
         <div class="component-impl">
           <DynamicComponent meta={this.item} params={extra} />
         </div>
       )
+    }
     },
   },
   mounted() {
@@ -101,6 +106,8 @@ export default {
         onRotate={this.handleRotate}
         onRotateend={this.handleRotateEnd}
         renderContent={this.renderContent}
+        prevent={false}
+        zIndex={item.extra.zIndex}
       />
     )
   },

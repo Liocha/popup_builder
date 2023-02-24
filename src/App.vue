@@ -11,6 +11,7 @@ import {
   EVENT_COMPONENT_SELECT,
   EVENT_COMPONENT_TRANSFORM,
   EVENT_COMPONENT_UNSELECT,
+  EVENT_COMPONENT_EDITABLE,
 } from '@/event-enums.js'
 import FooterVue from "@/components/Footer.vue";
 import HeaderVue from "@/components/Header.vue";
@@ -36,13 +37,15 @@ export default {
       currentId: '', //id выбранного элемента (возможно который эктив)
       currentPath: [], 
       controlled: {}, //данные текущего элемента
+      modalData: {
+        width: 650,
+        height: 400
+      }
     //  emitter: this.emitter
     }
   },
   methods: {
     getComponents(components, parentId) {
-      console.log('getComponents => parentId =>', parentId);
-      console.log('getComponents => components =>', components);
       return components.map((item) => ({
         type: item.type,
         children: item.type === 'container' ? [] : void 0,
@@ -75,9 +78,6 @@ export default {
      * @params {{components:Array,parentId:string?}}
      */
     addControl({ components, parentId }) {
-
-      console.log('addControl => parentId =>', parentId);
-      console.log('addControl => components =>', components);
       let controls = []
       let newComponents = this.getComponents(components, parentId)
       if (parentId) {
@@ -103,7 +103,6 @@ export default {
      * @param {{[id :string]:{key:string;value:any}}} changes
      */
     batchUpdateControlValue(changes) {
-      console.log('batchUpdateControlValue => changes =>', changes);
       let controls = batchUpdateIn(this.controls, Object.keys(changes), (item) => {
         item[changes[item.id].key] = changes[item.id].value
         return item
@@ -193,9 +192,15 @@ export default {
     },
     // 属性编辑器变化后同步到组件中
     handleChange({ name, value, extra }) {
-      console.log(name);
-      console.log(value);
-      console.log(extra);
+
+      // console.log(name);
+      // console.log(value);
+      // console.log(extra);
+      if(name=='sizeChange') {
+        this.modalData.height = value
+        return
+      }
+
       if (!this.currentId) {
         return
       }
@@ -204,11 +209,6 @@ export default {
       } else {
         this.controlled[name] = value
       }
-
-      console.log(this.controls);
-      console.log(this.currentId);
-      console.log(this.currentPath);
-      console.log(this.controlled);
       // 注意节流优化提升性能
       this.updateControlValue(name, value, extra)
     },
@@ -312,6 +312,15 @@ export default {
     getEditorView() {
       return this.$refs.editor
     },
+    handleEditable({text}) {
+      console.log(text);
+
+     this.handleChange({
+          name: 'value',
+          value : text,
+          extra: true
+       })
+    }
   },
   created() {
     // 使用独立的事件对象来处理，避免多层透传回调函数
@@ -324,9 +333,10 @@ export default {
    this.emitter.on(EVENT_APPLICATION_REDO, this.handleRedo)
    this.emitter.on(EVENT_APPLICATION_UNDO, this.handleUndo)
    this.emitter.on(EVENT_APPLICATION_CLEAR, this.handleClear)
-
+   
+   this.emitter.on(EVENT_COMPONENT_EDITABLE, this.handleEditable)
     // 绑定键盘按钮事件
-    registerKeyboardAction(this)
+  //  registerKeyboardAction(this)
   },
   render() {
     return (
@@ -334,13 +344,13 @@ export default {
         <HeaderVue />
         <div class="content">
           <ComponentsVue />
-          <EditorViewVue ref="editor" value={this.controls}>
-            <PluginSelectionVue application={this} />
+          <EditorViewVue ref="editor" value={this.controls} size={this.modalData}>
+            {/**   <PluginSelectionVue application={this} />**/}
             <PluginGridVue />
           </EditorViewVue>
-          <PropInspectorVue onChange={this.handleChange} controlled={this.controlled} />
+          <PropInspectorVue onChange={this.handleChange} controlled={this.controlled} modalData={this.modalData}/>
         </div>
-        <FooterVue />
+        <FooterVue controls={this.controls}> </FooterVue>
       </div>
     )
   },
@@ -363,6 +373,9 @@ export default {
       width: 100%;
       overflow: scroll;
       height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   .component-impl,

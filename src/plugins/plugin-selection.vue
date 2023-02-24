@@ -4,7 +4,7 @@ import DDrComponent from '@/components/ddr/DDR.vue'
 import { EVENT_COMPONENT_UNSELECT } from '@/event-enums'
 import { getComponentRef, getComponentRefsById } from '@/ref'
 import { getBoundingRect } from '@/components/ddr/helper'
-import { registerSelectionActions } from './plugin-selection-actions'
+import { registerSelectionActions } from '@/plugins/plugin-selection-actions.js'
 /**
  * @description
  *  1、为编辑器增加批量选择功能
@@ -171,6 +171,9 @@ export default {
     this.componentRefs = []
     let element = this.application.getEditorView().getWrapperElement()
 
+    console.log(this.application.getEditorView())
+    console.log(element)
+
     Interaction.init(element, {
       onStart: () => {
         this.handleSelectionStart()
@@ -213,21 +216,21 @@ export default {
           )
         })}
 
-        <DDrComponent
-          ref="ddr"
-          data-component="true"
-          rotatable={false}
-          grid={this.grid}
-          resizeHandler={this.selectionHandler}
-          active={this.selectionActive}
-          onDragstart={this.stopPropagation}
-          onDrag={this.handleSelectionDrag}
-          onDragend={this.handleSelectionDragEnd}
-          onResizestart={this.stopPropagation}
-          onResize={this.handleSelectionResize}
-          onResizeend={this.handleSelectionDragEnd}
-          value={this.selectionTransform}
-        />
+          <DDrComponent
+            ref="ddr"
+            data-component="true"
+            rotatable={false}
+            grid={this.grid}
+            resizeHandler={this.selectionHandler}
+            active={this.selectionActive}
+            onDragstart={this.stopPropagation}
+            onDrag={this.handleSelectionDrag}
+            onDragend={this.handleSelectionDragEnd}
+            onResizestart={this.stopPropagation}
+            onResize={this.handleSelectionResize}
+            onResizeend={this.handleSelectionDragEnd}
+            value={this.selectionTransform}
+          />
       </div>
     )
   },

@@ -1,3 +1,4 @@
+import { toHandlers } from 'vue'
 import EditorView from './EditorView.vue'
 const Img = {
   props: {
@@ -92,6 +93,33 @@ const Rect = {
   },
 }
 
+const H1 = {
+  render() {
+    return <h1> Заголовок </h1>
+  },
+}
+
+ const P = {
+   props: {
+     params: {
+       default: () => ({}),
+     },
+   },
+   render() {
+     return <p 
+         class="editable" 
+         style={
+       {
+         color: this.params.color, 
+         'font-size': this.params.fontSize + 'px',
+         'z-index': this.params.zIndex
+       }}>  {this.params.value}</p>
+   },
+ }
+
+
+
+
 export default {
   img: Img,
   input: Input,
@@ -99,4 +127,6 @@ export default {
   rect: Rect,
   label: Label,
   container: Container,
+  h1: H1,
+  p: P
 }

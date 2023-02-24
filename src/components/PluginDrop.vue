@@ -29,7 +29,6 @@ export default {
       // 该功能给所有编辑视图提供，包括嵌套的编辑视图。
       // App.vue中添加到<EditorView></EditorView> 的插件仅提供给应用的顶层编辑视图
       let rect = this.$parent.getWrapperElement().getBoundingClientRect()
-      console.log(rect);
       let coords = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top,
@@ -50,7 +49,7 @@ export default {
       } else if ((comstr = e.dataTransfer.getData('text/component'))) {
         let com = JSON.parse(comstr)
         com = { ...com, ...coords }
-
+        console.log(com);
         addComponents.push(com)
       }
      this.emitter.emit(EVENT_COMPONENT_ADD, { components: addComponents, parentId: this.parentId })
@@ -66,8 +65,7 @@ export default {
 
     return (
       <div class="guide">
-        <div>拖拽组件或本地图片到此区域开始编辑</div>
-        <div>Drag component or local pictures to this area to start editing</div>
+        <div>Перетащите компонент или локальные изображения в эту область, чтобы начать редактирование.</div>
       </div>
     )
   },
@@ -84,5 +82,6 @@ export default {
   line-height: 2;
   font-size: 16px;
   font-weight: 300;
+  text-align: center;
 }
 </style>

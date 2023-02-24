@@ -1,5 +1,6 @@
 <script lang="jsx">
 export default {
+  emits: ['input'],
   props: {
     value: String,
     options: {
@@ -18,7 +19,7 @@ export default {
   },
   methods: {
     handleChange(v) {
-      this.emitter.emit('input', v)
+      this.$emit('input', v)
     },
   },
   render() {
